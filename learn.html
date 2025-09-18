@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Learn — Programming Basics</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+         :root {
+            --bg1: #0b1220;
+            --accent1: #7c3aed;
+            --accent2: #6a5acd;
+            --card: #ffffff;
+            --muted: #c6d2eb;
+            --glass: rgba(255, 255, 255, 0.04);
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+            line-height: 1.4
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #07122b 0%, #0a1730 100%);
+            color: #e6eef8;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .wrap {
+            width: 100%;
+            max-width: 1100px
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px
+        }
+        
+        header h1 {
+            font-size: 20px;
+            margin: 0;
+            color: var(--card)
+        }
+        
+        header .muted {
+            color: var(--muted);
+            font-size: 13px
+        }
+        
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(2, 6, 23, 0.6);
+        }
+        
+        nav.langs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px
+        }
+        
+        .lang-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 9px 12px;
+            border-radius: 10px;
+            color: var(--muted);
+            cursor: pointer;
+            font-weight: 600
+        }
+        
+        .lang-btn.active {
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 18px rgba(124, 58, 237, 0.12)
+        }
+        
+        .nav-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 8px
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 16px;
+            margin-top: 8px
+        }
+        
+        @media (max-width:900px) {
+            .container {
+                grid-template-columns: 1fr
+            }
+            .nav-actions {
+                order: 3
+            }
+        }
+        
+        .toc {
+            background: var(--card);
+            color: #0b1220;
+            padding: 12px;
+            border-radius: 10px
+        }
+        
+        .toc h3 {
+            margin: 0 0 8px 0;
+            color: var(--accent1)
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+        
+        .toc button {
+            background: var(--glass);
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            color: #082c58
+        }
+        
+        .toc button:hover {
+            outline: 2px solid rgba(124, 58, 237, 0.14)
+        }
+        
+        .learn-content {
+            background: var(--card);
+            color: #031124;
+            padding: 18px;
+            border-radius: 10px;
+            min-height: 360px;
+            overflow: auto
+        }
+        
+        .learn-content h2 {
+            margin: 0 0 6px 0;
+            color: var(--accent1)
+        }
+        
+        .topic {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #e3e4e6
+        }
+        
+        .topic h4 {
+            margin: 0 0 6px 0;
+            color: #0b1220
+        }
+        
+        .topic p {
+            margin: 0 0 8px 0;
+            color: #092f64
+        }
+        
+        pre {
+            background: #0b1220;
+            color: #e6eef8;
+            padding: 12px;
+            border-radius: 8px;
+            overflow: auto;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+            font-size: 13px
+        }
+        
+        .back {
+            display: inline-block;
+            margin-top: 14px;
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 8px 10px;
+            border-radius: 8px;
+            color: var(--muted);
+            cursor: pointer
+        }
+        
+        footer {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div>
+                <h1>Learn — Programming Basics (Concise)</h1>
+                <div class="muted">Click a language to show only that language's basics & syntax</div>
+            </div>
+            <div class="nav-actions">
+                <button class="lang-btn" id="backHomeBtn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:8px 12px;border-radius:8px">← Back to Home</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Left: language buttons + TOC -->
+            <div>
+                <div class="card" style="margin-bottom:10px;padding:12px">
+                    <div class="langs" id="langs">
+                        <button class="lang-btn active" data-lang="java">Java</button>
+                        <button class="lang-btn" data-lang="python">Python</button>
+                        <button class="lang-btn" data-lang="cpp">C++</button>
+                        <button class="lang-btn" data-lang="c">C</button>
+                        <button class="lang-btn" data-lang="html">HTML</button>
+                        <button class="lang-btn" data-lang="css">CSS</button>
+                        <button class="lang-btn" data-lang="javascript">JavaScript</button>
+                    </div>
+                </div>
+
+                <div class="toc card" aria-label="Topics">
+                    <h3>Topics</h3>
+                    <ul id="topicList">
+                        <li><button data-topic="overview">Overview</button></li>
+                        <li><button data-topic="hello">Hello World</button></li>
+                        <li><button data-topic="vars">Variables & Types</button></li>
+                        <li><button data-topic="cond">Control Flow (if/else)</button></li>
+                        <li><button data-topic="loops">Loops (for/while)</button></li>
+                        <li><button data-topic="funcs">Functions / Methods</button></li>
+                        <li><button data-topic="arrays">Arrays / Collections</button></li>
+                        <li><button data-topic="io">Input / Output</button></li>
+                        <li><button data-topic="comments">Comments</button></li>
+                        <li><button data-topic="example">Short Example</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right: content -->
+            <div class="learn-content card" id="learnContent" role="main">
+                <h2 id="learnTitle">Java — Basics</h2>
+                <div id="topicArea"></div>
+                <button class="back" id="backHomeBtn2">Back to Home</button>
+            </div>
+        </div>
+
+        <footer>Single-file learn page — client-side. Expand snippets as you like.</footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // SESSION GUARD: allow navigation freely only if someone is logged in
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedInUser) {
+                // not logged in -> redirect to login page
+                alert('Please login first.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Full content object (copied from your original)
+            const LEARN = {
+                java: {
+                    title: "Java — Basics",
+                    overview: "Java is a statically-typed, object-oriented programming language that runs on the JVM.",
+                    hello: `public class HelloWorld {
+  public static void main(String[] args) {
+    System.out.println("Hello, World!");
+  }
+}`,
+                    vars: `// variables & types
+int n = 10;
+double pi = 3.14;
+String name = "Asmitha";
+boolean ok = true;`,
+                    cond: `// if / else
+if(score >= 50) {
+  System.out.println("Pass");
+} else {
+  System.out.println("Fail");
+}`,
+                    loops: `// for loop
+for(int i=0;i<5;i++){
+  System.out.println(i);
+}
+// while loop
+int i = 0;
+while(i < 5){ i++; }`,
+                    funcs: `// method in a class
+public int add(int a, int b) {
+  return a + b;
+}`,
+                    arrays: `// array & ArrayList
+int[] arr = {1,2,3};
+import java.util.ArrayList;
+ArrayList<String> list = new ArrayList<>();`,
+                    io: `// Scanner for input
+import java.util.Scanner;
+Scanner sc = new Scanner(System.in);
+String s = sc.nextLine();`,
+                    comments: `// single-line
+/* multi-line
+   comment */`,
+                    example: `// Small program: sum of numbers from input
+import java.util.Scanner;
+public class Sum {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int sum = 0;
+    for(int i=0;i<n;i++) sum += sc.nextInt();
+    System.out.println(sum);
+  }
+}`
+                },
+
+                python: {
+                    title: "Python — Basics",
+                    overview: "Python is an interpreted, dynamically-typed language with simple syntax and strong standard library.",
+                    hello: `print("Hello, World!")`,
+                    vars: `# variables are dynamic
+n = 10
+pi = 3.14
+name = "Asmitha"
+flag = True`,
+                    cond: `# if / else
+score = 60
+if score >= 50:
+    print("Pass")
+else:
+    print("Fail")`,
+                    loops: `# for loop with range
+for i in range(5):
+    print(i)
+
+# while loop
+i = 0
+while i < 5:
+    i += 1`,
+                    funcs: `# function
+def add(a, b):
+    return a + b`,
+                    arrays: `# list, tuple, dict, set
+lst = [1,2,3]
+tpl = (1,2)
+d = {'k': 'v'}
+s = {1,2,3}`,
+                    io: `# input
+name = input("Enter name: ")
+print("Hello", name)`,
+                    comments: `# single-line
+"""
+multi-line docstring
+"""`,
+                    example: `# Example: read n and print sum
+n = int(input())
+nums = list(map(int, input().split()))
+print(sum(nums))`
+                },
+
+                cpp: {
+                    title: "C++ — Basics",
+                    overview: "C++ is a compiled language with object-oriented and generic programming support.",
+                    hello: `#include <iostream>
+using namespace std;
+int main(){
+  cout << "Hello, World!" << endl;
+  return 0;
+}`,
+                    vars: `// types and variables
+int x = 10;
+double d = 3.14;
+string s = "Asmitha";
+bool b = true;`,
+                    cond: `// if / else
+if(score >= 50){
+  cout << "Pass";
+} else {
+  cout << "Fail";
+}`,
+                    loops: `// for
+for(int i=0;i<5;i++) cout << i << "\\n";
+// while
+int i=0;
+while(i<5) ++i;`,
+                    funcs: `// function
+int add(int a, int b){
+  return a + b;
+}`,
+                    arrays: `// arrays and vector
+int arr[] = {1,2,3};
+#include <vector>
+vector<int> v = {1,2,3};`,
+                    io: `// input/output
+int x; cin >> x;
+cout << x << endl;`,
+                    comments: `// single-line
+/* multi-line */`,
+                    example: `// Sum of n numbers
+#include <iostream>
+using namespace std;
+int main(){
+  int n; cin>>n;
+  int sum=0;
+  for(int i=0;i<n;i++){ int v; cin>>v; sum+=v; }
+  cout<<sum<<\"\\n\";
+  return 0;
+}`
+                },
+
+                c: {
+                    title: "C — Basics",
+                    overview: "C is a procedural compiled language, foundation for many system-level programs.",
+                    hello: `#include <stdio.h>
+int main(){
+  printf("Hello, World!\\n");
+  return 0;
+}`,
+                    vars: `// basic types
+int a = 10;
+float f = 3.14;
+char c = 'A';`,
+                    cond: `// if / else
+if(x > 0) {
+  printf("Positive");
+} else {
+  printf("Non-positive");
+}`,
+                    loops: `// for & while
+for(int i=0;i<5;i++) { /* ... */ }
+int i=0; while(i<5){ i++; }`,
+                    funcs: `// function
+int add(int a, int b){
+  return a + b;
+}`,
+                    arrays: `// arrays
+int arr[5] = {1,2,3,4,5};`,
+                    io: `// input/output
+#include <stdio.h>
+int x; scanf("%d", &x);
+printf("%d\\n", x);`,
+                    comments: `// single-line
+/* multi-line */`,
+                    example: `// Sum example
+#include <stdio.h>
+int main(){
+  int n; scanf("%d", &n);
+  int sum=0;
+  for(int i=0;i<n;i++){ int v; scanf("%d",&v); sum+=v; }
+  printf("%d\\n", sum);
+  return 0;
+}`
+                },
+
+                html: {
+                    title: "HTML — Basics",
+                    overview: "HTML (HyperText Markup Language) structures content of web pages using tags.",
+                    hello: `&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;`,
+                    vars: `<!-- HTML doesn't have variables; it's markup. Use attributes and IDs/classes -->`,
+                    cond: `<!-- Conditional behavior is done using JS, not HTML -->`,
+                    loops: `<!-- Loops are implemented via JS templates or server-side code -->`,
+                    funcs: `<!-- Functions are JS; HTML organizes structure and forms -->`,
+                    arrays: `<!-- Collections come from JS (arrays) or repeated elements like &lt;li&gt; -->`,
+                    io: `&lt;form action="/submit" method="post"&gt;
+  &lt;input type="text" name="name" /&gt;
+  &lt;button&gt;Send&lt;/button&gt;
+&lt;/form&gt;`,
+                    comments: `&lt;!-- This is an HTML comment --&gt;`,
+                    example: `&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Demo&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;&lt;h1&gt;Site Title&lt;/h1&gt;&lt;/header&gt;
+    &lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;
+    &lt;section&gt;&lt;p&gt;Content here&lt;/p&gt;&lt;/section&gt;
+    &lt;footer&gt;&lt;p&gt;© 2025&lt;/p&gt;&lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;`
+                },
+
+                css: {
+                    title: "CSS — Basics",
+                    overview: "CSS (Cascading Style Sheets) controls presentation of HTML. Selectors, properties, box model.",
+                    hello: `/* basic selector */
+body { font-family: Arial, sans-serif; }
+h1 { color: navy; }`,
+                    vars: `/* variables (custom properties) */
+:root { --accent: #7c3aed; }
+.btn { background: var(--accent); }`,
+                    cond: `/* no conditions, use media queries */
+@media (max-width:600px){ .col{display:block;} }`,
+                    loops: `/* no loops in plain CSS, preprocessors like SASS offer loops */`,
+                    funcs: `/* CSS functions: calc(), rgba(), var() */
+width: calc(100% - 40px);`,
+                    arrays: `/* no arrays - use comma lists for fallback values */
+font-family: "Inter", sans-serif;`,
+                    io: `/* no IO in CSS */`,
+                    comments: `/* single block comment */`,
+                    example: `.container{ max-width:1200px; padding:16px; margin:0 auto; }
+.button:hover{ transform:translateY(-2px); }`
+                },
+
+                javascript: {
+                    title: "JavaScript — Basics",
+                    overview: "JavaScript is the browser's scripting language — dynamic, event-driven, and used for DOM manipulation.",
+                    hello: `console.log("Hello, World!");
+alert("Hello!");`,
+                    vars: `// variables
+let x = 10;
+const PI = 3.14;
+var old = "avoid var";`,
+                    cond: `// if / else
+if(score >= 50){
+  console.log("Pass");
+} else {
+  console.log("Fail");
+}`,
+                    loops: `// for loop
+for(let i=0;i<5;i++){ console.log(i); }
+// while
+let i=0; while(i<5){ i++; }`,
+                    funcs: `// function & arrow
+function add(a,b){ return a+b; }
+const add2 = (a,b) => a + b;`,
+                    arrays: `// array methods
+const arr = [1,2,3];
+arr.push(4);
+arr.map(x => x*2);`,
+                    io: `// DOM input example
+const el = document.getElementById("name");
+console.log(el.value);`,
+                    comments: `// single-line
+/* multi-line */`,
+                    example: `// Example: change text of an element
+document.getElementById("btn").addEventListener("click", () => {
+  document.getElementById("target").textContent = "Clicked!";
+});`
+                }
+            };
+
+            // UI state
+            let currentLang = 'java';
+
+            // Cache selectors AFTER DOM is ready
+            const langButtons = Array.from(document.querySelectorAll('.lang-btn'));
+            const topicButtons = Array.from(document.querySelectorAll('#topicList button'));
+            const titleEl = document.getElementById('learnTitle');
+            const topicArea = document.getElementById('topicArea');
+            const backButtons = [document.getElementById('backHomeBtn'), document.getElementById('backHomeBtn2')];
+
+            function setActiveLang(btn) {
+                if (!btn) return;
+                langButtons.forEach(b => b.classList.toggle('active', b === btn));
+                currentLang = btn.dataset.lang;
+                titleEl.innerText = LEARN[currentLang].title || currentLang;
+                renderTopic('overview');
+            }
+
+            // attach handlers
+            langButtons.forEach(b => b.addEventListener('click', () => setActiveLang(b)));
+            topicButtons.forEach(tb => tb.addEventListener('click', () => renderTopic(tb.dataset.topic)));
+            backButtons.forEach(b => b && b.addEventListener('click', () => {
+                window.location.href = 'home.html';
+            }));
+
+            function renderTopic(topicKey) {
+                const data = LEARN[currentLang];
+                topicArea.innerHTML = ''; // clear
+                const content = (data && data[topicKey]) ? data[topicKey] : 'Topic not available.';
+
+                const block = document.createElement('div');
+                block.className = 'topic';
+
+                const titleMap = {
+                    overview: 'Overview',
+                    hello: 'Hello World',
+                    vars: 'Variables & Types',
+                    cond: 'Control Flow (if/else)',
+                    loops: 'Loops (for/while)',
+                    funcs: 'Functions / Methods',
+                    arrays: 'Arrays / Collections',
+                    io: 'Input / Output',
+                    comments: 'Comments',
+                    example: 'Short Example'
+                };
+
+                const h = document.createElement('h4');
+                h.textContent = titleMap[topicKey] || topicKey;
+                block.appendChild(h);
+
+                if (topicKey === 'overview' && data && data.overview) {
+                    const p = document.createElement('p');
+                    p.textContent = data.overview;
+                    block.appendChild(p);
+                }
+
+                const pre = document.createElement('pre');
+                pre.textContent = content;
+                block.appendChild(pre);
+
+                topicArea.appendChild(block);
+                block.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+
+            // initial activation
+            const defaultBtn = document.querySelector('.lang-btn[data-lang="java"]');
+            setActiveLang(defaultBtn);
+        }); // DOMContentLoaded
+    </script>
+</body>
+
+</html>
