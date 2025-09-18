@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a5acd, #9370db);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            width: 350px;
+        }
+        
+        h2 {
+            text-align: center;
+            color: #4b0082;
+        }
+        
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #6a5acd;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #4b0082;
+        }
+        
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        a {
+            color: #4b0082;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" required>
+
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (!email.includes("@")) {
+                alert("Enter a valid email");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            if (users.some(u => u.email === email)) {
+                alert("Email already registered!");
+                return;
+            }
+
+            users.push({
+                name,
+                email,
+                password
+            });
+            localStorage.setItem("users", JSON.stringify(users));
+            alert("Registration successful! Please login.");
+            window.location.href = "login.html";
+        });
+    </script>
+</body>
+
+</html>

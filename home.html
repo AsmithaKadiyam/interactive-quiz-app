@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<style>
+  body {font-family: Arial, sans-serif; background: #f5f5f5; margin:0;}
+  header{background:#4b0082; color:#fff; padding:15px; text-align:center;}
+  nav{display:flex; justify-content:center; gap:15px; background:#6a5acd; padding:10px;}
+  nav button{background:#fff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; transition:0.3s; color:#4b0082;}
+  nav button:hover{background:#ddd;}
+  .container{max-width:800px; margin:20px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+  h2{color:#4b0082; text-align:center;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Welcome to Quiz Website</h1>
+</header>
+
+<nav>
+  <button onclick="showSection('profile')">Profile</button>
+  <button onclick="location.href='learn.html'">Learn Basics</button>
+  <button onclick="location.href='quiz.html'">Quiz</button>
+  <button onclick="logout()">Logout</button>
+</nav>
+
+<div class="container" id="profile">
+  <h2>Profile</h2>
+  <p><strong>Name:</strong> <span id="profileName"></span></p>
+  <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+</div>
+
+<script>
+const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+if(!loggedInUser){
+  alert("Please login first");
+  window.location.href = "login.html";
+} else {
+  document.getElementById("profileName").innerText = loggedInUser.name;
+  document.getElementById("profileEmail").innerText = loggedInUser.email;
+}
+
+function logout(){
+  localStorage.removeItem("loggedInUser");
+  alert("You have been logged out.");
+  window.location.href = "login.html";
+}
+</script>
+</body>
+</html>

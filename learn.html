@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Programming Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #6a5acd, #9370db);
+            color: #333;
+        }
+        
+        header {
+            background: #4b0082;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        nav button {
+            background: #6a5acd;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        nav button:hover {
+            background: #4b0082;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #4b0082;
+        }
+        
+        .quiz-section {
+            display: none;
+        }
+        
+        .question {
+            margin: 15px 0;
+        }
+        
+        .options label {
+            display: block;
+            margin: 5px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .options label:hover {
+            background: #f0f0f0;
+        }
+        
+        button.submit-btn {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: #6a5acd;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        button.submit-btn:hover {
+            background: #4b0082;
+        }
+        
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .correct {
+            background: #d4edda;
+        }
+        
+        .wrong {
+            background: #f8d7da;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Programming Quiz</h1>
+    </header>
+
+    <nav>
+        <button onclick="showQuiz('java')">Java</button>
+        <button onclick="showQuiz('python')">Python</button>
+        <button onclick="showQuiz('cpp')">C++</button>
+        <button onclick="showQuiz('c')">C</button>
+        <button onclick="showQuiz('html')">HTML</button>
+        <button onclick="showQuiz('css')">CSS</button>
+        <button onclick="showQuiz('javascript')">JavaScript</button>
+        <button onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="container">
+        <h2 id="quiz-title">Select a language to start</h2>
+        <div id="java" class="quiz-section"></div>
+        <div id="python" class="quiz-section"></div>
+        <div id="cpp" class="quiz-section"></div>
+        <div id="c" class="quiz-section"></div>
+        <div id="html" class="quiz-section"></div>
+        <div id="css" class="quiz-section"></div>
+        <div id="javascript" class="quiz-section"></div>
+    </div>
+
+    <script>
+        // ✅ LOGIN CHECK
+        let loggedUser = localStorage.getItem('loggedUser');
+        if (!loggedUser) {
+            alert("Please login first!");
+            window.location.href = "registration.html";
+        }
+
+        // ✅ QUIZ DATA (10 Q each)
+        const quizData = {
+            java: [{
+                q: "Which keyword is used to define a class in Java?",
+                options: ["class", "Class", "struct"],
+                answer: "class"
+            }, {
+                q: "Entry point method in Java?",
+                options: ["main()", "start()", "run()"],
+                answer: "main()"
+            }, {
+                q: "Java is ___ typed language.",
+                options: ["Strongly", "Weakly", "Dynamically"],
+                answer: "Strongly"
+            }, {
+                q: "Java supports multiple inheritance directly. True/False?",
+                options: ["True", "False"],
+                answer: "False"
+            }, {
+                q: "Which of these is not primitive type?",
+                options: ["int", "float", "String"],
+                answer: "String"
+            }, {
+                q: "Which keyword is used to inherit a class?",
+                options: ["extends", "implements", "inherits"],
+                answer: "extends"
+            }, {
+                q: "Which of these is the size of int in Java?",
+                options: ["2 bytes", "4 bytes", "8 bytes"],
+                answer: "4 bytes"
+            }, {
+                q: "Which collection allows unique elements only?",
+                options: ["List", "Set", "Map"],
+                answer: "Set"
+            }, {
+                q: "Default value of boolean variable?",
+                options: ["true", "false", "null"],
+                answer: "false"
+            }, {
+                q: "Which package contains Scanner class?",
+                options: ["java.util", "java.io", "java.lang"],
+                answer: "java.util"
+            }],
+            python: [{
+                q: "Keyword to define a function in Python?",
+                options: ["function", "def", "fun"],
+                answer: "def"
+            }, {
+                q: "How to print output?",
+                options: ["echo", "print()", "cout"],
+                answer: "print()"
+            }, {
+                q: "Python is ___ typed.",
+                options: ["Dynamically", "Statically", "Strongly"],
+                answer: "Dynamically"
+            }, {
+                q: "Python lists are mutable. True/False?",
+                options: ["True", "False"],
+                answer: "True"
+            }, {
+                q: "Which is used for comments?",
+                options: ["//", "#", "/* */"],
+                answer: "#"
+            }, {
+                q: "What is output of len('hello')?",
+                options: ["5", "4", "6"],
+                answer: "5"
+            }, {
+                q: "Which keyword is used for loop?",
+                options: ["loop", "for", "iterate"],
+                answer: "for"
+            }, {
+                q: "Which operator is used for exponent?",
+                options: ["^", "**", "exp()"],
+                answer: "**"
+            }, {
+                q: "What is type of (3.0)?",
+                options: ["int", "float", "double"],
+                answer: "float"
+            }, {
+                q: "Which function converts string to int?",
+                options: ["toInt()", "int()", "parseInt()"],
+                answer: "int()"
+            }],
+            cpp: [{
+                q: "C++ supports classes. True/False?",
+                options: ["True", "False"],
+                answer: "True"
+            }, {
+                q: "Which header is needed for cout?",
+                options: ["<stdio.h>", "<iostream>", "<math.h>"],
+                answer: "<iostream>"
+            }, {
+                q: "Keyword to define class?",
+                options: ["class", "struct", "object"],
+                answer: "class"
+            }, {
+                q: "C++ is ___ typed.",
+                options: ["Strongly", "Weakly", "Dynamic"],
+                answer: "Strongly"
+            }, {
+                q: "C++ supports operator overloading. True/False?",
+                options: ["True", "False"],
+                answer: "True"
+            }, {
+                q: "Which OOP feature allows same function with diff args?",
+                options: ["Overriding", "Overloading", "Encapsulation"],
+                answer: "Overloading"
+            }, {
+                q: "Default access specifier of class members?",
+                options: ["public", "private", "protected"],
+                answer: "private"
+            }, {
+                q: "Which keyword creates object dynamically?",
+                options: ["malloc", "alloc", "new"],
+                answer: "new"
+            }, {
+                q: "Which container stores unique sorted values?",
+                options: ["vector", "set", "list"],
+                answer: "set"
+            }, {
+                q: "File extension for C++ source?",
+                options: [".c", ".cpp", ".java"],
+                answer: ".cpp"
+            }],
+            c: [{
+                q: "Entry point function in C?",
+                options: ["main()", "start()", "run()"],
+                answer: "main()"
+            }, {
+                q: "C is ___ typed.",
+                options: ["Weakly", "Strongly", "Dynamic"],
+                answer: "Strongly"
+            }, {
+                q: "printf is used for input. True/False?",
+                options: ["True", "False"],
+                answer: "False"
+            }, {
+                q: "Which header needed for printf?",
+                options: ["<stdio.h>", "<iostream>", "<math.h>"],
+                answer: "<stdio.h>"
+            }, {
+                q: "C supports classes. True/False?",
+                options: ["True", "False"],
+                answer: "False"
+            }, {
+                q: "Which loop executes at least once?",
+                options: ["for", "while", "do-while"],
+                answer: "do-while"
+            }, {
+                q: "Size of char?",
+                options: ["1 byte", "2 bytes", "4 bytes"],
+                answer: "1 byte"
+            }, {
+                q: "Which storage class makes variable global?",
+                options: ["auto", "extern", "static"],
+                answer: "extern"
+            }, {
+                q: "Which symbol is used for address?",
+                options: ["*", "&", "%"],
+                answer: "&"
+            }, {
+                q: "C is developed by?",
+                options: ["James Gosling", "Bjarne Stroustrup", "Dennis Ritchie"],
+                answer: "Dennis Ritchie"
+            }],
+            html: [{
+                q: "HTML stands for?",
+                options: ["HyperText Markup Language", "Hyperlinks Text Markup Language", "Home Tool Markup Language"],
+                answer: "HyperText Markup Language"
+            }, {
+                q: "Tag for largest heading?",
+                options: ["<h1>", "<head>", "<h6>"],
+                answer: "<h1>"
+            }, {
+                q: "HTML is case-sensitive. True/False?",
+                options: ["True", "False"],
+                answer: "False"
+            }, {
+                q: "Root tag of HTML page?",
+                options: ["<html>", "<body>", "<head>"],
+                answer: "<html>"
+            }, {
+                q: "<br> tag is self-closing. True/False?",
+                options: ["True", "False"],
+                answer: "True"
+            }, {
+                q: "Which tag creates hyperlink?",
+                options: ["<a>", "<link>", "<href>"],
+                answer: "<a>"
+            }, {
+                q: "Which tag defines table row?",
+                options: ["<tr>", "<td>", "<th>"],
+                answer: "<tr>"
+            }, {
+                q: "Which attribute sets image source?",
+                options: ["src", "href", "link"],
+                answer: "src"
+            }, {
+                q: "Which tag for ordered list?",
+                options: ["<ol>", "<ul>", "<li>"],
+                answer: "<ol>"
+            }, {
+                q: "Default alignment of <p> text?",
+                options: ["left", "center", "right"],
+                answer: "left"
+            }],
+            css: [{
+                q: "CSS stands for?",
+                options: ["Cascading Style Sheets", "Colorful Style Sheets", "Computer Style Sheets"],
+                answer: "Cascading Style Sheets"
+            }, {
+                q: "Selector for id?",
+                options: [".", "#", "$"],
+                answer: "#"
+            }, {
+                q: "CSS is used for content. True/False?",
+                options: ["True", "False"],
+                answer: "False"
+            }, {
+                q: "Property to change text color?",
+                options: ["font-color", "color", "text-color"],
+                answer: "color"
+            }, {
+                q: "CSS can be inline, internal, external. True/False?",
+                options: ["True", "False"],
+                answer: "True"
+            }, {
+                q: "Property to change background?",
+                options: ["bg", "background-color", "color-bg"],
+                answer: "background-color"
+            }, {
+                q: "Which is flex container property?",
+                options: ["flex-wrap", "align-text", "margin"],
+                answer: "flex-wrap"
+            }, {
+                q: "Positioning type for absolute placement?",
+                options: ["static", "absolute", "fixed"],
+                answer: "absolute"
+            }, {
+                q: "Which unit is relative to root font-size?",
+                options: ["em", "rem", "%"],
+                answer: "rem"
+            }, {
+                q: "Default position property?",
+                options: ["relative", "absolute", "static"],
+                answer: "static"
+            }],
+            javascript: [{
+                q: "Keyword to declare a variable?",
+                options: ["let", "var", "Both"],
+                answer: "Both"
+            }, {
+                q: "JS is ___ typed.",
+                options: ["Dynamic", "Static", "Strong"],
+                answer: "Dynamic"
+            }, {
+                q: "Function definition keyword?",
+                options: ["func", "function", "def"],
+                answer: "function"
+            }, {
+                q: "JavaScript runs on browser. True/False?",
+                options: ["True", "False"],
+                answer: "True"
+            }, {
+                q: "JS arrays are mutable. True/False?",
+                options: ["True", "False"],
+                answer: "True"
+            }, {
+                q: "Which symbol for strict equality?",
+                options: ["==", "===", "!="],
+                answer: "==="
+            }, {
+                q: "Default value of uninitialized var?",
+                options: ["null", "undefined", "0"],
+                answer: "undefined"
+            }, {
+                q: "Which method adds element to end of array?",
+                options: ["push()", "pop()", "append()"],
+                answer: "push()"
+            }, {
+                q: "Which keyword declares constant?",
+                options: ["const", "let", "final"],
+                answer: "const"
+            }, {
+                q: "Event used when button clicked?",
+                options: ["onchange", "onclick", "onsubmit"],
+                answer: "onclick"
+            }]
+        };
+
+        let currentLang = '';
+
+
+
+        // ✅ LOGOUT FUNCTION
+        function logout() {
+            localStorage.removeItem('loggedUser');
+            window.location.href = "registration.html";
+        }
+    </script>
+</body>
+
+</html>        div.className = 'question';
+        let html = `<p>${i+1}. ${q.q}</p><div class="options">`;
+        q.options.forEach(opt => {
+            html += `<label><input type="radio" name="${lang}-q${i}" value="${opt}"> ${opt}</label>`;
+        });
+        html += '</div>';
+        div.innerHTML = html;
+        container.appendChild(div);
+    });
+
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'submit-btn';
+    submitBtn.innerText = 'Submit';
+    submitBtn.onclick = () => submitQuiz(lang);
+    container.appendChild(submitBtn);
+
+    const retryBtn = document.createElement('button');
+    retryBtn.className = 'submit-btn';
+    retryBtn.style.marginLeft = '10px';
+    retryBtn.innerText = 'Retry';
+    retryBtn.onclick = () => retryQuiz(lang);
+    container.appendChild(retryBtn);
+
+    const resultDiv = document.createElement('div');
+    resultDiv.className = 'result';
+    resultDiv.id = `result-${lang}`;
+    container.appendChild(resultDiv);
+}
+
+function submitQuiz(lang) {
+    const questions = quizData[lang];
+    let score = 0;
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="${lang}-q${i}"]:checked`);
+        const parent = selected ? selected.parentNode : null;
+        if (selected && selected.value === q.answer) {
+            score++;
+            if (parent) parent.classList.add('correct');
+        } else if (selected) {
+            if (parent) parent.classList.add('wrong');
+        }
+    });
+    document.getElementById(`result-${lang}`).innerText = `Your Score: ${score} / ${questions.length}`;
+}
+
+function retryQuiz(lang) {
+    const container = document.getElementById(lang);
+    container.innerHTML = '';
+    showQuiz(lang);
+}
+
+
+// ✅ LOGOUT FUNCTION
+function logout(){
+  localStorage.removeItem('loggedUser');
+  window.location.href = "registration.html";
+}
+</script>
+</body>
+</html>
