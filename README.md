@@ -57,7 +57,7 @@
 | Home Page | Learn Section | Quiz Section |
 |-----------|---------------|--------------|
 | ![Home Page](![home](https://github.com/user-attachments/assets/3a2424e9-a42d-481b-84ac-54b5d99e5713)
-) | ![Learn Section](assets/learn-section.png) | ![Quiz Section](assets/quiz-section.png) |
+) | ![Learn Section](https://1drv.ms/i/c/71503d5f23dcdf90/ETkQyzJxYhdBi3VJRemU6fcBk-s_qtVoWXX6dg3R9wtoKA?e=kaiV9s) | ![Quiz Section](https://1drv.ms/i/c/71503d5f23dcdf90/Eevxz_1mbpZFlhIGA1ymirUBnEs9npP88vXm6vUCvoQoqQ?e=XEBIWp) |
 
 > Replace placeholders with actual screenshots or GIFs for better impact.
 
